@@ -57,6 +57,11 @@ db.authenticate().then(() => {
   console.log("connect");
 })
 
+router.get("/test",(req,res)=>{
+  res.json({
+    msg:"your appppppppppp"
+  })
+})
 
 
 router.use("/api/user", require("./routes/UserRoutes"));
@@ -69,7 +74,7 @@ router.use("/api/auth", require("./routes/Auth"));
 
 
 
-const port= process.env.PORT||3000;
+const port= process.env.PORT||5000;
 
 router.listen(port, () => {
   console.log(`listening on ${port}.....!!!`);
