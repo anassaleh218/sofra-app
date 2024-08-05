@@ -11,11 +11,16 @@ const userValidator = require("../middleware/UserValidatorMW");
 
 router.post("/", userValidator, async (req, res) => {
   try {
+
     // Check if user already exists
     const existingUser = await User.findOne({
       where: { email: req.body.email },
     });
     if (existingUser) return res.status(400).send("User already exists");
+
+    if (req.body.password !== req.body.confirmPassword) {
+      return res.status(400).json({ errors: [{ message: "Passwords do not match" }] });
+    }
 
     // Hash the password
     const saltRounds = 10;
@@ -27,9 +32,12 @@ router.post("/", userValidator, async (req, res) => {
       name: req.body.name,
       email: req.body.email,
       password: hashedPswd,
+      address: req.body.address,
+      mobile: req.body.mobile
+
     });
 
-   
+
     // Generate token
     const token = jwt.sign(
       { userid: user.id },
@@ -57,4 +65,5 @@ router.post("/", userValidator, async (req, res) => {
     }
   }
 })
+
 module.exports = router;

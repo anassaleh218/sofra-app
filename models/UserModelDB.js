@@ -34,6 +34,14 @@ const User = db.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
     minlength: 5,
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  mobile: {
+    type: DataTypes.STRING,
+    allowNull: false,
   }
 });
 
