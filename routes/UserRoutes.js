@@ -15,6 +15,7 @@ router.post("/", userValidator, async (req, res) => {
     // Check if user already exists
     const existingUser = await User.findOne({
       where: { email: req.body.email },
+      attributes: ['id']
     });
     if (existingUser) return res.status(400).send("User already exists");
 
@@ -24,8 +25,8 @@ router.post("/", userValidator, async (req, res) => {
 
     // Hash the password
     const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPswd = await bcrypt.hash(req.body.password, salt);
+    // const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPswd = await bcrypt.hash(req.body.password, saltRounds);
 
     // Create new user without isAdmin field
     const user = await User.create({
